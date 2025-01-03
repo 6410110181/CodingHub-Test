@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
-   HomePage({super.key});
+  HomePage({super.key});
 
   // Initialize FlutterSecureStorage
   final FlutterSecureStorage _storage = FlutterSecureStorage();
@@ -25,8 +26,22 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            backgroundColor: Color.fromARGB(255, 52, 76, 214),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
           onPressed: () => _logout(context),
-          child: Text('Logout'),
+          child: Text(
+            'Logout'.toUpperCase(),
+            style: GoogleFonts.dosis(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );

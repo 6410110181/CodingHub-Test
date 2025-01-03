@@ -24,6 +24,7 @@ async def get_users(
     username: Optional[str] = Query(None, alias="filter_username"),  # ฟิลเตอร์ตามชื่อผู้ใช้
     email: Optional[str] = Query(None, alias="filter_email")  # ฟิลเตอร์ตามอีเมล
 ):
+    
     # เริ่มต้น query
     query = select(DBUser)
 
@@ -33,17 +34,15 @@ async def get_users(
     if email:
         query = query.where(DBUser.email.ilike(f"%{email}%"))
 
-    # คำนวณค่า skip ที่เหมาะสม (หน้าเริ่มต้นที่ 1)
-    offset_value = (skip - 1) * limit
-
-    # เพิ่ม offset และ limit
-    query = query.offset(offset_value).limit(limit)
+    offset_value = (skip - 1) * limit # คำนวณค่า skip ที่เหมาะสม (หน้าเริ่มต้นที่ 1)
+    query = query.offset(offset_value).limit(limit) #เพิ่ม offset และ limit
 
     # Execute query
     result = await session.execute(query)
     users = result.scalars().all()
 
-    return users
+    return [user.dict(exclude={'password'}) for user in users] #กำหนดให้ไม่ส่ง password กลับไป
+    
 
 
 @router.post("/create")
